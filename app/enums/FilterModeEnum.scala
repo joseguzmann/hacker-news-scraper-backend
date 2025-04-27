@@ -9,21 +9,21 @@ sealed trait FilterModeEnum {
 
 object FilterModeEnum {
 
-  private case object LongTitles extends FilterModeEnum {
+  case object LongTitles extends FilterModeEnum {
     private val threshold = 5
 
     def filter(wordCount: Int): Boolean = wordCount > threshold
     def order(e: HackerNewsEntry): Int  = -e.comments
   }
 
-  private case object ShortTitles extends FilterModeEnum {
+  case object ShortTitles extends FilterModeEnum {
     private val threshold = 5
 
     def filter(wordCount: Int): Boolean = wordCount <= threshold
     def order(e: HackerNewsEntry): Int  = -e.points
   }
 
-  private case object Raw extends FilterModeEnum {
+  case object Raw extends FilterModeEnum {
     def filter(wordCount: Int): Boolean = true
     def order(e: HackerNewsEntry): Int  = 0
   }
