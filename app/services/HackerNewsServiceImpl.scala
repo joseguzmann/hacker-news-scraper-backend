@@ -1,40 +1,22 @@
 package services
 
+import enums.FilterModeEnum
+import helpers.HackerNewsHelper
 import models.HackerNewsEntry
-import net.ruippeixotog.scalascraper.browser.JsoupBrowser
-import net.ruippeixotog.scalascraper.dsl.DSL._
-import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
-import net.ruippeixotog.scalascraper.dsl.DSL.Parse._
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Try
 
 @Singleton
-class HackerNewsServiceImpl @Inject()(implicit ec :ExecutionContext) extends HackerNewsService {
+class HackerNewsServiceImpl @Inject()(
+  hackerNewsHelper: HackerNewsHelper,
+  htmlFetcherService: HtmlFetcherService
+)(implicit ec :ExecutionContext) extends HackerNewsService {
 
-  override def fetchEntries(): Future[Seq[HackerNewsEntry]] = {
-    for {
-      entries <- fetchAndFormatEntries()
-    } yield entries
-  }
+  private val HackerNewsUrl = "https://news.ycombinator.com/"
 
-  private def fetchAndFormatEntries(): Future[Seq[HackerNewsEntry]] = Future {
-    val url  = "https://news.ycombinator.com/"
-    val doc  = JsoupBrowser().get(url)
-    val rowsToBeFetched = 30
-    val rows = (doc >> elementList("tr.athing.submission")).take(rowsToBeFetched)
-
-    for {
-      row        <- rows
-      rowId       = row.attr("id")
-      siblingRow  = doc >> element(s"tr#$rowId + tr")
-      rank        = (row >> text("span.rank")).dropRight(1).toInt
-      title       =  row >> text("span.titleline a")
-      points     <- Try((siblingRow >> text("span.score"))
-        .takeWhile(_.isDigit).toInt).toOption
-      comments   <- Try((siblingRow >> text("span.subline > a:last-child"))
-        .takeWhile(_.isDigit).toInt).toOption
-    } yield HackerNewsEntry(rank, title, points, comments)
-  }
+  override def fetchEntries(implicit filterMode: FilterModeEnum): Future[Seq[HackerNewsEntry]] =
+    htmlFetcherService.fetch(HackerNewsUrl).map { html =>
+      hackerNewsHelper.applyFilterAndOrder(hackerNewsHelper.formatHackerNewsDocument(html))
+    }
 }
