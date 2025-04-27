@@ -5,4 +5,4 @@
 
 GET     /health                                         controllers.HealthController.health()
 
-GET     /hacker-news/entries                            controllers.HackerNewsController.getEntries()
+GET     /hacker-news/entries                            controllers.HackerNewsController.getEntries(filter: Option[String])

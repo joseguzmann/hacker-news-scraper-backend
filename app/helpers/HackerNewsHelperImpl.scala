@@ -15,7 +15,7 @@ class HackerNewsHelperImpl @Inject()(textHelper: TextHelper) extends HackerNewsH
 
   private val rowsToBeTaken = 30
 
-  override def formatHackerNewsDocument(document: Document): Seq[HackerNewsEntry] = {
+  override def parseHackerNewsDocument(document: Document): Seq[HackerNewsEntry] = {
     val rows = (document >> elementList("tr.athing.submission")).take(rowsToBeTaken)
 
     for {

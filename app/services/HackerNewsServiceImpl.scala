@@ -17,6 +17,6 @@ class HackerNewsServiceImpl @Inject()(
 
   override def fetchEntries(implicit filterMode: FilterModeEnum): Future[Seq[HackerNewsEntry]] =
     htmlFetcherService.fetch(HackerNewsUrl).map { html =>
-      hackerNewsHelper.applyFilterAndOrder(hackerNewsHelper.formatHackerNewsDocument(html))
+      hackerNewsHelper.applyFilterAndOrder(hackerNewsHelper.parseHackerNewsDocument(html))
     }
 }

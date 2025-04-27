@@ -7,5 +7,5 @@ import scala.concurrent.Future
 
 trait HackerNewsService {
 
-  def fetchEntries(filterMode: FilterModeEnum): Future[Seq[HackerNewsEntry]]
+  def fetchEntries(implicit filterMode: FilterModeEnum): Future[Seq[HackerNewsEntry]]
 }

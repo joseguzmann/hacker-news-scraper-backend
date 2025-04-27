@@ -28,13 +28,10 @@ object FilterModeEnum {
     def order(e: HackerNewsEntry): Int  = 0
   }
 
-//  val values: Seq[FilterModeEnum] = Seq(LongTitles, ShortTitles, Raw)
-
-  def fromString(s: String): Option[FilterModeEnum] =
-    s.toLowerCase match {
-      case "longtitles"  => Some(LongTitles)
-      case "shorttitles" => Some(ShortTitles)
-      case "raw"         => Some(Raw)
-      case _             => None
+  def fromOptionString(filter: Option[String]): FilterModeEnum =
+    filter.map(_.toLowerCase) match {
+      case Some("longtitles")  => LongTitles
+      case Some("shorttitles") => ShortTitles
+      case _                   => Raw
     }
 }
