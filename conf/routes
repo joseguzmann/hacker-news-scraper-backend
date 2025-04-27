@@ -3,5 +3,6 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-GET     /health                           controllers.HealthController.health()
+GET     /health                                         controllers.HealthController.health()
 
+GET     /hacker-news/entries                            controllers.HackerNewsController.getEntries()
