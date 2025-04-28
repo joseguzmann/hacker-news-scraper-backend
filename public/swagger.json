@@ -1,0 +1,92 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hacker News API",
+    "description": "API to scrape Hacker News posts",
+    "version": "1.0.0"
+  },
+  "host": "api.hacker-news.jsguzman.space",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Check if the API is running correctly.",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hacker-news/entries": {
+      "get": {
+        "summary": "Get Hacker News entries",
+        "description": "Fetch the first 30 Hacker News entries, optionally filtered and ordered.",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter mode: 'longTitles' or 'shortTitles'.",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "longTitles",
+              "shortTitles"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Hacker News entries",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "rank": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Show HN: My new project"
+                  },
+                  "points": {
+                    "type": "integer",
+                    "example": 123
+                  },
+                  "comments": {
+                    "type": "integer",
+                    "example": 45
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error fetching entries"
+          }
+        }
+      }
+    }
+  }
+}

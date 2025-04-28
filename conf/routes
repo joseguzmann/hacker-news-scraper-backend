@@ -1,8 +1,7 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
+# NoDocs
+GET     /swagger.json                                   controllers.SwaggerController.swaggerSpec
+# NoDocs
+GET     /docs/*file                                     controllers.Assets.at(path="/public/swagger-ui", file)
 
 GET     /health                                         controllers.HealthController.health()
-
 GET     /hacker-news/entries                            controllers.HackerNewsController.getEntries(filter: Option[String])

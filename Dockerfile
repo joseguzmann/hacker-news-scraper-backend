@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY target/universal/stage /app
 
+COPY public/ public/
+
 EXPOSE 9000
 
 # Secret key should change in a real scenario
