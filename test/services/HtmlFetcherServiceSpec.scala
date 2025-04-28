@@ -15,7 +15,7 @@ class HtmlFetcherServiceSpec
 
   private val fetcher = new HtmlFetcherServiceImpl
 
-  "HtmlFetcherServiceImpl.fetch" should {
+  "fetch" should {
 
     "return a Jsoup Document when the URL is reachable" in {
       whenReady(fetcher.fetch("https://example.com")) { doc =>
