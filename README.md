@@ -78,17 +78,12 @@ docker run -d -p 8084:9000 jg175415/hacker-news-scraper-backend:latest
 Currently no external environment variables are required.
 
 ## Production Deployment
-The production version is available at:
 
-```
-https://api.hacker-news.jsguzman.space
-```
+The production version is available at:  
+[https://api.hacker-news.jsguzman.space](https://api.hacker-news.jsguzman.space)
 
-Swagger documentation is available at:
-
-```
-https://api.hacker-news.jsguzman.space/docs/index.html
-```
+Swagger documentation is available at:  
+[https://api.hacker-news.jsguzman.space/docs/index.html](https://api.hacker-news.jsguzman.space/docs/index.html)
 
 ## Contributing
 Feel free to open issues and pull requests to improve the project.
