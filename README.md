@@ -1,167 +1,98 @@
-# Project Name
+# Hacker News Scraper - Backend
 
-> Brief description of what your Scala Play Framework application does.
+## Overview
+This is the backend service for the Hacker News Scraper project. It provides an API that scrapes and retrieves Hacker News posts based on optional filters. The service is built with Scala, Play Framework, and exposes Swagger documentation for easy API exploration.
 
-## 📋 Table of Contents
+## Features
+- Scrape Hacker News front page posts
+- Filter and sort posts based on criteria
+- Health check endpoint
+- Swagger documentation available at `/docs/index.html`
+- Dockerized for easy deployment
 
-- [Description](#description)  
-- [Prerequisites](#prerequisites)  
-- [Installation](#installation)  
-- [Configuration](#configuration)  
-- [Running Locally](#running-locally)  
-- [Testing](#testing)  
-- [Deployment](#deployment)  
-- [Project Structure](#project-structure)  
-- [Contributing](#contributing)  
-- [License](#license)  
-- [Contact](#contact)  
+## Tech Stack
+- Scala 2.13.16
+- Play Framework 3.0.7
+- SBT 1.9.0
+- Swagger UI
+- Docker
 
----
+## Endpoints
+| Method | Path | Description |
+| :----: | :--: | :---------: |
+| GET | `/health` | Returns the health status of the service |
+| GET | `/hacker-news/entries?filter=filterMode` | Fetches Hacker News entries with optional filter |
 
-## 📖 Description
+## Filter Modes
+You can use the `filter` query parameter to customize the list of entries:
 
-Provide one or two paragraphs explaining the purpose, main features, and key technologies used:  
-- **Framework**: Play Framework  
-- **Language**: Scala  
-- **Build Tool**: sbt  
-- **Database**: (e.g., PostgreSQL, MongoDB)  
-- **Additional Libraries**: (list any relevant libraries)
+- `longTitles`: Entries with more than five words in the title, ordered by number of comments (descending).
+- `shortTitles`: Entries with five or fewer words in the title, ordered by points (descending).
 
----
+If no filter is provided, all entries are returned without special ordering.
 
-## ⚙️ Prerequisites
+## Setup (Local Development)
 
-Before you begin, ensure you have the following installed:
-
-- [Java JDK 11+](https://adoptium.net/)  
-- [sbt (Scala Build Tool)](https://www.scala-sbt.org/)  
-- (Optional) Docker and Docker Compose, if using containers for databases or deployment
-
----
-
-## 🚀 Installation
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/your-username/your-project.git
-   cd your-project
-   ```
-
-2. **Compile and download dependencies**  
-   ```bash
-   sbt compile
-   ```
-
-3. **Start the application**  
-   ```bash
-   sbt run
-   ```
-
-   By default, the application will be available at [http://localhost:9000](http://localhost:9000).
-
----
-
-## 🔧 Configuration
-
-Set up environment variables or configuration files:
-
-- Rename `conf/application.conf.example` to `conf/application.conf`.  
-- Adjust database connection settings:
-  ```hocon
-  db.default.driver = "org.postgresql.Driver"
-  db.default.url = "jdbc:postgresql://localhost:5432/your_database"
-  db.default.username = "username"
-  db.default.password = "password"
-  ```
-- (Optional) Configure ports, API keys, or other services in `conf/local.conf`.
-
----
-
-## 💻 Running Locally
-
-For active development, you can use:
+1. **Clone the repository**
 
 ```bash
-sbt "~run"
+git clone https://github.com/jg175415/hacker-news-scraper-backend.git
+cd hacker-news-scraper-backend
 ```
 
-This will recompile and restart the application automatically when code changes are detected.
+2. **Run the project**
 
----
+```bash
+sbt run
+```
 
-## 🧪 Testing
+The API will be available at `http://localhost:9000`.
 
-Run the test suite with:
+Swagger UI can be accessed at `http://localhost:9000/docs/index.html`.
+
+3. **Run tests**
 
 ```bash
 sbt test
 ```
 
-To generate a code coverage report (if using scoverage):
+## Docker Deployment
+
+The following code shows an example of how the service was hosted on the production VPS:
+
+1. **Build and push the Docker image**
 
 ```bash
-sbt clean coverage test coverageReport
+docker build -t jg175415/hacker-news-scraper-backend:latest .
+docker push jg175415/hacker-news-scraper-backend:latest
 ```
 
----
+2. **Run the container**
 
-## 🚢 Deployment
-
-Describe how to package and deploy your application:
-
-1. **Generate distributable**  
-   ```bash
-   sbt dist
-   ```
-2. **Upload and deploy**  
-   - Copy the ZIP file (`target/universal/your-project-1.0-SNAPSHOT.zip`) to your server.  
-   - Unzip it: `unzip your-project-1.0-SNAPSHOT.zip`.  
-   - Run the script: `bin/your-project -Dplay.http.secret.key=your_secret_key`.
-
-3. **Using Docker**  
-   - Build the Docker image:
-     ```bash
-     docker build -t your-username/your-project:latest .
-     ```
-   - Run the container:
-     ```bash
-     docker run -d -p 9000:9000        -e DATABASE_URL=jdbc:postgresql://host:5432/db        -e SECRET_KEY=your_secret_key        your-username/your-project:latest
-     ```
-
----
-
-## 🗂️ Project Structure
-
-```
-├── app/                 # Play source code (controllers, models, views)
-├── conf/                # Configuration (routes, application.conf)
-├── public/              # Static assets (CSS, JS, images)
-├── test/                # Unit and integration tests
-├── project/             # sbt configuration
-└── build.sbt            # Build definition and dependencies
+```bash
+docker pull jg175415/hacker-news-scraper-backend:latest
+docker run -d -p 8084:9000 jg175415/hacker-news-scraper-backend:latest
 ```
 
----
+## Environment Variables
+Currently no external environment variables are required.
 
-## 🤝 Contributing
+## Production Deployment
+The production version is available at:
 
-1. Fork the repository  
-2. Create a branch (`git checkout -b feature/new-feature`)  
-3. Make your changes and commit (`git commit -m 'Add new feature'`)  
-4. Push to the branch (`git push origin feature/new-feature`)  
-5. Open a Pull Request
+```
+https://api.hacker-news.jsguzman.space
+```
 
----
+Swagger documentation is available at:
 
-## 📄 License
+```
+https://api.hacker-news.jsguzman.space/docs/index.html
+```
 
-This project is licensed under the [MIT License](LICENSE).
+## Contributing
+Feel free to open issues and pull requests to improve the project.
 
----
+## License
+This project is licensed under the MIT License.
 
-## ✉️ Contact
-
-- **Author**: Your Name  
-- **Email**: your.email@example.com  
-- **LinkedIn**: [linkedin.com/in/your-username](https://linkedin.com/in/your-username)  
-- **GitHub**: [github.com/your-username](https://github.com/your-username)  
